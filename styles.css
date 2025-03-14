@@ -1,0 +1,70 @@
+/* Force 100% scale */
+html { zoom: 100%; }
+body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
+
+/* Top Navbar Styles */
+.top-navbar {
+  margin-bottom: 10px;
+}
+/* Layout: left sidebar and main content */
+#wrapper {
+  display: flex;
+  min-height: calc(100vh - 56px); /* subtract navbar height */
+}
+#sidebar {
+  max-width: 300px;
+  min-width: 300px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #ddd;
+  padding: 15px;
+}
+#main-content {
+  flex: 1;
+  padding: 15px;
+}
+.card {
+  margin-bottom: 20px;
+}
+.table-responsive {
+  max-width: 1500px; /* Adjust this value based on how many columns you expect */
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10;
+}
+.table td,
+.table th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+.hide-col {
+  display: none !important;
+}
+.spinner-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.spinner-backdrop.show {
+  display: flex;
+}
+/* Dark Mode (optional) */
+.dark-mode { background-color: #1e1e1e !important; color: #f0f0f0 !important; }
+.dark-mode #sidebar { background-color: #2a2a2a; border-right-color: #444; }
+.dark-mode .card { background-color: #2a2a2a; color: #f0f0f0; }
+.dark-mode .table thead th { background-color: #3a3a3a; }
