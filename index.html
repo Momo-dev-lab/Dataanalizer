@@ -3,225 +3,272 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Data Analytics Web App</title>
+  <title>Data Analytics Web App - Home</title>
   <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <!-- Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.0/papaparse.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Optional Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Modern Home Page Additional Styling */
+    .hero {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: #fff;
+      padding: 100px 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+    }
+    .about {
+      padding: 60px 0;
+    }
+    .about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    .features {
+      padding: 60px 0;
+    }
+    .feature-card {
+      transition: transform 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .how-it-works {
+      background-color: #f8f9fa;
+      padding: 60px 0;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .extended-info {
+      padding: 60px 0;
+      background-color: #e9ecef;
+    }
+    .extended-info h2 {
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Spinner Backdrop -->
-  <div class="spinner-backdrop" id="spinnerBackdrop">
-    <div class="spinner-border text-light" role="status" style="width: 4rem; height: 4rem;">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-
-  <!-- Top Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light top-navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Data Analytics Web App</a>
-      <div class="d-flex">
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="darkModeToggleTop">
-          <label class="form-check-label" for="darkModeToggleTop">Dark Mode</label>
-        </div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container" style="padding-left: 30%;">
+      <a class="navbar-brand" href="#" >Data Analytics Web App</a>
+      <div class="collapse navbar-collapse" id="navbarNav" >
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+           <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+           <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+           <li class="nav-item"><a class="nav-link" href="#extended-info">More Info</a></li>
+           <li class="nav-item"><a class="nav-link" href="#get-started">Get Started</a></li>
+         </ul>
       </div>
     </div>
   </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Welcome to Data Analytics Web App</h1>
+      <p>Empower your data analysis with modern tools for cleaning, visualizing, and exploring your data.</p>
+      <a href="app.html" class="btn btn-light btn-lg">Get Started</a>
+    </div>
+  </section>
   
-  <div id="wrapper">
-    <!-- Left Sidebar -->
-    <div id="sidebar">
-      <!-- File Upload Section -->
-      <div class="card mb-3">
-        <div class="card-header">
-          <h5 class="mb-0">Upload File</h5>
-          <small class="text-muted">(CSV or Excel)</small>
-        </div>
-        <div class="card-body">
-          <div class="dropzone mb-2" id="dropzone" onclick="document.getElementById('fileInput').click()" style="cursor:pointer;">
-            <p class="mb-0 text-center">Drag & Drop or Click to Browse</p>
-          </div>
-          <input type="file" id="fileInput" class="form-control d-none" />
-        </div>
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>About Our App</h2>
       </div>
-
-      <!-- Data Cleaning Section -->
-      <div class="card mb-3">
-        <div class="card-header">
-          <h5 class="mb-0">Data Cleaning</h5>
-        </div>
-        <div class="card-body">
-          <div id="dataSummary" class="mb-2"></div>
-          <div class="d-grid gap-2">
-            <button class="btn btn-warning btn-sm" onclick="removeMissing()">Remove Missing Rows</button>
-            <div class="input-group mb-2">
-              <input type="text" id="fillValue" class="form-control form-control-sm" placeholder="Fill Value" />
-              <button class="btn btn-info btn-sm" onclick="fillMissing()">Fill Missing</button>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="removeDuplicates()">Remove Duplicates</button>
-            <button class="btn btn-secondary btn-sm" onclick="flagDuplicates()">Flag Duplicates</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Chart Options Section -->
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0">Chart Options</h5>
-        </div>
-        <div class="card-body">
-          <div class="mb-2">
-            <label for="x-axis" class="form-label">X-Axis</label>
-            <select id="x-axis" class="form-select form-select-sm"></select>
-          </div>
-          <div class="mb-2">
-            <label for="y-axis" class="form-label">Y-Axis</label>
-            <select id="y-axis" class="form-select form-select-sm"></select>
-          </div>
-          <div class="mb-2">
-            <label for="chart-type" class="form-label">Chart Type</label>
-            <select id="chart-type" class="form-select form-select-sm"></select>
-          </div>
-          <button class="btn btn-success btn-sm w-100" onclick="generateChart()">Generate Chart</button>
-        </div>
-      </div>
-</div>
-    
-
-    <!-- Main Content -->
-<div id="main-content">
-  <!-- Tab Navigation for Preview -->
-  <ul class="nav nav-tabs mb-3" id="previewTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="chart-tab" data-bs-toggle="tab" data-bs-target="#chart-preview" type="button" role="tab" aria-controls="chart-preview" aria-selected="true">
-        Chart Preview
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="table-tab" data-bs-toggle="tab" data-bs-target="#table-preview" type="button" role="tab" aria-controls="table-preview" aria-selected="false">
-        Table Preview
-      </button>
-    </li>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab" aria-controls="analysis" aria-selected="false">
-        Data Analysis
-      </button>
-    </li>
-  </ul>
-
-  <!-- Tab Content -->
-  <div class="tab-content" id="previewTabsContent">
-    <!-- Chart Preview Tab -->
-    <div class="tab-pane fade show active" id="chart-preview" role="tabpanel" aria-labelledby="chart-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">Chart Preview</h5>
-        </div>
-        <div class="card-body" style="height: 600px;">
-          <canvas id="chart"></canvas>
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            Data Analytics Web App is designed to simplify the process of data exploration for both beginners and advanced users. Our platform provides a comprehensive suite of tools that allow you to upload your datasets, clean and transform data, visualize patterns, and derive meaningful insights.
+          </p>
+          <p>
+            Built with cutting-edge web technologies, our app leverages powerful libraries such as Chart.js for dynamic visualizations, PapaParse for efficient CSV parsing, and XLSX for handling Excel files. This ensures that your data is processed quickly and accurately, no matter the format.
+          </p>
+          <p>
+            Whether you’re a business professional, a researcher, or a data enthusiast, our intuitive interface and robust functionality help you make smarter, data-driven decisions.
+          </p>
         </div>
       </div>
     </div>
-    <!-- Table Preview Tab -->
-    <div class="tab-pane fade" id="table-preview" role="tabpanel" aria-labelledby="table-tab">
-      <!-- Advanced Filtering Controls -->
-      <div class="mb-3">
-        <input type="text" id="tableSearch" class="form-control" placeholder="Live Search..." oninput="applyLiveSearch()" />
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>Key Features</h2>
+        <p>Everything you need to analyze your data effectively</p>
       </div>
-      <div class="mb-3">
-        <div class="input-group">
-          <select id="filterColumn" class="form-select form-select-sm"></select>
-          <select id="filterOperator" class="form-select form-select-sm">
-            <option value="contains">Contains</option>
-            <option value="equals">Equals</option>
-            <option value="lt">Less Than</option>
-            <option value="gt">Greater Than</option>
-          </select>
-          <input type="text" id="filterValue" class="form-control form-control-sm" placeholder="Filter Value" />
-          <button class="btn btn-primary btn-sm" onclick="applyFilter()">Apply Filter</button>
-          <button class="btn btn-secondary btn-sm" onclick="clearFilter()">Clear Filter</button>
-        </div>
-      </div>
-      <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">Table Preview</h5>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table id="dataTable" class="table table-striped table-hover table-bordered align-middle">
-              <thead id="tableHead"></thead>
-              <tbody id="tableBody"></tbody>
-            </table>
-          </div>
-          <div id="pagination" class="d-flex justify-content-between align-items-center mt-3"></div>
-          <!-- Reset Filter Button -->
-          <button class="btn btn-primary btn-sm mt-2" onclick="clearFilter()">Reset Filter</button>
-        </div>
-      </div>
-    </div>
-     <!-- Data Analysis Tab -->
-     <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
-      <div class="card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">Data Analysis</h5>
-        </div>
-        <div class="card-body">
-          <!-- Descriptive Statistics and Correlation Matrix -->
-          <div class="d-grid gap-2 mb-3">
-            <button class="btn btn-outline-primary btn-sm" onclick="showDescriptiveStats()">Show Descriptive Statistics</button>
-            <button class="btn btn-outline-primary btn-sm" onclick="showCorrelationMatrix()">Show Correlation Matrix</button>
-          </div>
-          <!-- Pivot Table Controls -->
-          <div class="card mb-3">
-            <div class="card-header">
-              <h5 class="mb-0">Pivot Table</h5>
-            </div>
+      <div class="row g-4">
+        <!-- Feature 1: File Upload -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
             <div class="card-body">
-              <div class="row g-3">
-                <div class="col-md-4">
-                  <label for="pivotGroupBy" class="form-label">Group By</label>
-                  <select id="pivotGroupBy" class="form-select form-select-sm"></select>
-                </div>
-                <div class="col-md-4">
-                  <label for="pivotValue" class="form-label">Value Column</label>
-                  <select id="pivotValue" class="form-select form-select-sm"></select>
-                </div>
-                <div class="col-md-4">
-                  <label for="pivotFunc" class="form-label">Aggregation</label>
-                  <select id="pivotFunc" class="form-select form-select-sm">
-                    <option value="sum">Sum</option>
-                    <option value="avg">Average</option>
-                    <option value="count">Count</option>
-                  </select>
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm mt-3" onclick="generatePivotTable()">Generate Pivot Table</button>
+              <h5 class="card-title">File Upload</h5>
+              <p class="card-text">Easily upload CSV or Excel files and start analyzing your data in seconds.</p>
             </div>
           </div>
-          <div id="analysisResults"></div>
-          <div id="pivotResults" class="mt-3"></div>
+        </div>
+        <!-- Feature 2: Data Cleaning -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title">Data Cleaning</h5>
+              <p class="card-text">Remove missing values, fill blanks, and flag duplicates with intuitive controls.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 3: Dynamic Visualizations -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title">Dynamic Visualizations</h5>
+              <p class="card-text">Generate interactive charts and graphs that bring your data to life.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 4: Advanced Filtering -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title">Advanced Filtering</h5>
+              <p class="card-text">Use live search and custom filters to quickly narrow down your dataset.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 5: Data Analysis -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title">Data Analysis</h5>
+              <p class="card-text">Compute descriptive statistics and correlation matrices with a single click.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Feature 6: Pivot Tables -->
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow">
+            <div class="card-body">
+              <h5 class="card-title">Pivot Tables</h5>
+              <p class="card-text">Summarize and aggregate your data easily using customizable pivot tables.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- End Tab Content -->
-  </div>
-</div>
-  <!-- /#wrapper -->
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>How It Works</h2>
+        <p>Get insights from your data in three simple steps</p>
+      </div>
+      <div class="row g-4">
+        <!-- Step 1: Upload -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-upload" style="font-size: 3rem; color: #2575fc;"></i>
+            <h4 class="mt-3">Upload</h4>
+            <p>Select your data file (CSV or Excel) to get started.</p>
+          </div>
+        </div>
+        <!-- Step 2: Clean & Transform -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-gear" style="font-size: 3rem; color: #2575fc;"></i>
+            <h4 class="mt-3">Clean & Transform</h4>
+            <p>Clean your data, remove errors, and prepare it for detailed analysis.</p>
+          </div>
+        </div>
+        <!-- Step 3: Visualize & Analyze -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-bar-chart-line" style="font-size: 3rem; color: #2575fc;"></i>
+            <h4 class="mt-3">Visualize & Analyze</h4>
+            <p>Create interactive charts, view pivot tables, and extract actionable insights.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Extended Text Information Section -->
+  <section id="extended-info" class="extended-info">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>Learn More About Our Platform</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>In-Depth Data Processing</h4>
+          <p>
+            Our platform not only lets you upload data effortlessly, but it also provides advanced data cleaning features. Whether it's removing missing values, flagging duplicates, or filling in gaps, our app ensures that your dataset is ready for analysis. With integrated error handling and intuitive controls, you can trust that your data is both accurate and reliable.
+          </p>
+          <p>
+            Optimized for performance, our system processes large datasets quickly so you spend less time waiting and more time exploring insights.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h4>Interactive Visualizations</h4>
+          <p>
+            Visualizing data is at the heart of our app. With interactive charts and graphs, you can explore trends, identify correlations, and detect anomalies in real time. Every visualization is fully customizable—adjust colors, labels, and styles to best suit your analysis.
+          </p>
+          <p>
+            The responsive design ensures that your visualizations look stunning on any device, making it easy to share insights with your team.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h4>User-Friendly Interface</h4>
+          <p>
+            Designed with the end-user in mind, our clean and modern interface makes it easy for anyone to start analyzing data. Step-by-step guides, tooltips, and intuitive controls ensure that even beginners can navigate the platform with ease.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h4>Security & Privacy</h4>
+          <p>
+            We take data security seriously. All your files are processed in a secure environment, and our platform adheres to best practices in data encryption and privacy. Your data remains confidential every step of the way.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Started Section -->
+  <section id="get-started" class="py-5">
+    <div class="container text-center">
+      <h2>Ready to Dive In?</h2>
+      <p class="mb-4">Start analyzing your data today and unlock valuable insights.</p>
+      <a href="app.html" class="btn btn-primary btn-lg">Launch App</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-light py-4">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 Data Analytics Web App. All rights reserved.</p>
+    </div>
+  </footer>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Existing JS Logic with Debug Logging -->
-  <script src="script.js"></script>
 </body>
 </html>

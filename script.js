@@ -1297,20 +1297,20 @@ return {
   // Render analysis results in the Data Analysis tab
   function showDescriptiveStats() {
     const stats = computeDescriptiveStats();
-    let html = "<h6>Descriptive Statistics</h6>";
+    let html = '<div class="table-responsive" style="max-height: 300px; overflow-y: auto;"><h3>Descriptive Statistics</h3>';
     html += "<table class='table table-sm table-bordered'><thead><tr><th>Column</th><th>Count</th><th>Mean</th><th>Median</th><th>Min</th><th>Max</th><th>Std Dev</th></tr></thead><tbody>";
     for (const col in stats) {
       const s = stats[col];
       html += `<tr><td>${col}</td><td>${s.count}</td><td>${s.mean}</td><td>${s.median}</td><td>${s.min}</td><td>${s.max}</td><td>${s.stdDev}</td></tr>`;
     }
-    html += "</tbody></table>";
+    html += "</tbody></table></div>";
     document.getElementById('analysisResults').innerHTML = html;
   }
 
   function showCorrelationMatrix() {
     const matrix = computeCorrelationMatrix();
     const numericCols = Object.keys(matrix);
-    let html = "<h6>Correlation Matrix</h6>";
+    let html = '<div class="table-responsive" style="max-height: 300px; overflow-y: auto;"><h3>Correlation Matrix</h3>';
     html += "<table class='table table-sm table-bordered'><thead><tr><th></th>";
     numericCols.forEach(col => { html += `<th>${col}</th>`; });
     html += "</tr></thead><tbody>";
@@ -1321,7 +1321,7 @@ return {
       });
       html += "</tr>";
     });
-    html += "</tbody></table>";
+    html += "</tbody></table></div>";
     document.getElementById('analysisResults').innerHTML = html;
   }
 
@@ -1361,10 +1361,25 @@ return {
         pivot[key] = pivot[key].count ? (pivot[key].sum / pivot[key].count).toFixed(2) : 0;
       }
     }
-    let html = '<table class="table table-sm table-bordered"><thead><tr><th>' + groupByCol + '</th><th>' + agg.toUpperCase() + ' of ' + valueCol + '</th></tr></thead><tbody>';
-    for (const key in pivot) {
-      html += `<tr><td>${key}</td><td>${pivot[key]}</td></tr>`;
-    }
-    html += '</tbody></table>';
+    // Build the HTML table
+    let html = `
+    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;"><h2>Pivot Table</h2>
+      <table class="table table-sm table-bordered">
+        <thead>
+          <tr>
+            <th>${groupByCol}</th>
+            <th>${agg.toUpperCase()} of ${valueCol}</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+  for (const key in pivot) {
+    html += `<tr><td>${key}</td><td>${pivot[key]}</td></tr>`;
+  }
+  html += `
+        </tbody>
+      </table>
+    </div>
+  `;
     document.getElementById('pivotResults').innerHTML = html;
   }
